@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Beerdex-v80'; // Increment to trigger update
+const CACHE_NAME = 'Beerdex-v1'; // Increment to trigger update
 const ASSETS = [
     './index.html',
     './style.css',
@@ -75,12 +75,7 @@ self.addEventListener('fetch', event => {
                     });
 
                 return networkResponse;
-            }).catch(() => {
-                // If offline and request is for a page, return offline.html
-                if (event.request.mode === 'navigate') {
-                    return caches.match('./offline.html');
-                }
-            });
+            })
         })
     );
 });
