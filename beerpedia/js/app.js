@@ -1,5 +1,5 @@
 import { GUIDE_HTML } from './guide_content.js';
-import * as UI from '../ui.js';
+import * as UI from '../../js/ui.js';
 
 const mainContent = document.getElementById('main-content');
 

@@ -487,12 +487,12 @@ window.generateHTML = () => {
     <div id="app">
         <header class="app-header">
             <div class="logo">
-                <a href="../beerpedia.html" style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
-                    <img src="../icons/logo-bnr.png" width="32" height="32" alt="Beerdex Logo">
+                <a href="../index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
+                    <img src="../../icons/logo-bnr.png" width="32" height="32" alt="Beerdex Logo">
                     <h1>Beerpedia</h1>
                 </a>
             </div>
-             <a href="../beerpedia.html" class="icon-btn" aria-label="Retour">
+             <a href="../index.html" class="icon-btn" aria-label="Retour">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
@@ -506,6 +506,9 @@ window.generateHTML = () => {
                     <div class="article-icon">🍺</div>
                     <h1>${title}</h1>
                     <p class="subtitle">${subtitle}</p>
+                    <div class="article-author" style="font-size:0.8rem; color:#666; margin-top:10px; text-align:center;">
+                        <span style="color:#eee;">${author}</span> // <span style="font-style:italic;">${role}</span>
+                    </div>
                 </header>
 
                 <div class="article-content">
@@ -516,6 +519,7 @@ ${contentHtml}
             </div>
         </main>
     </div>
+    <script src="../js/runtime.js"></script>
 </body>
 </html>`;
 

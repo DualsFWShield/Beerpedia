@@ -1,0 +1,283 @@
+:root {
+    /* Premium Dark Palette */
+    --bg-dark: #0a0a0a;
+    --bg-card: #141414;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent-gold: #FFC000;
+    --glass-bg: rgba(20, 20, 20, 0.85);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+
+    /* Spacing */
+    --nav-height: 64px;
+    --header-height: 60px;
+}
+
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+    font-family: 'Russo One', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Layout Shell */
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--bg-dark);
+    position: relative;
+}
+
+/* Header */
+.app-header {
+    height: var(--header-height);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-gold);
+}
+
+.logo h1 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Main Content Area */
+#main-content {
+    flex: 1;
+    padding: 16px;
+    padding-bottom: 40px;
+}
+
+/* --- Article Styles (The Core) --- */
+
+.article-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Article Header */
+.article-header {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 30px;
+}
+
+.article-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.article-header h1 {
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+    margin-bottom: 5px;
+    line-height: 1.1;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+.article-author {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: inline-block;
+    padding-top: 5px;
+}
+
+/* Article Content */
+.article-content h3 {
+    color: #fff;
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 15px;
+    margin: 30px 0 15px 0;
+    font-size: 1.4rem;
+}
+
+.article-content p {
+    color: #ccc;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.article-content ul {
+    list-style: none;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.article-content li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 8px;
+    color: #ddd;
+    line-height: 1.5;
+}
+
+.article-content li::before {
+    content: "STANDARD";
+    /* Fallback */
+    content: "🍺";
+    position: absolute;
+    left: -5px;
+    top: 2px;
+    font-size: 0.8rem;
+}
+
+/* Components */
+.article-image {
+    margin: 25px -16px;
+    /* Bleed on mobile */
+    text-align: center;
+}
+
+.article-image img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.article-meta {
+    display: flex;
+    gap: 10px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
+.article-meta span {
+    background: rgba(255, 192, 0, 0.1);
+    color: var(--accent-gold);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 192, 0, 0.3);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Signature Block */
+.beer-signature {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.beer-signature>div {
+    text-align: center;
+}
+
+.beer-signature .label {
+    color: #666;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.beer-signature .value {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.beer-signature .highlight {
+    color: var(--accent-gold);
+}
+
+/* Callout */
+blockquote {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-left: 4px solid var(--accent-gold);
+    margin: 25px 0;
+    font-style: italic;
+    color: #eee;
+    border-radius: 0 8px 8px 0;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+}
+
+/* Animations (Used by Runtime) */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Image Zoom Overlay */
+#zoom-overlay {
+    backdrop-filter: blur(5px);
+}
+
+@media (min-width: 600px) {
+    .article-image img {
+        border-radius: 12px;
+    }
+
+    .article-image {
+        margin: 25px 0;
+    }
+}
