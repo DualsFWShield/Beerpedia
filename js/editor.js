@@ -53,7 +53,7 @@ function initFirebaseUI() {
         googleBtn.style.marginBottom = '10px';
 
         // Insert before inputs
-        loginContainer.insertBefore(googleBtn, loginContainer.firstChild);
+        loginForm.insertBefore(googleBtn, loginForm.firstChild);
 
         googleBtn.addEventListener('click', async () => {
             try {
