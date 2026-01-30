@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction - Beerpedia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="../index.html"
+                    style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
+                    <img src="../icons/logo-bnr.png" width="32" height="32" alt="Beerdex Logo">
+                    <h1>Beerpedia</h1>
+                </a>
+            </div>
+            <a href="../index.html" class="icon-btn" aria-label="Retour">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+        </header>
+
+        <main id="main-content" class="scroll-container">
+            <div class="article-container fade-in">
+                <header class="article-header">
+                    <div class="article-icon">📖</div>
+                    <h1>Bienvenue sur Beerpedia</h1>
+                    <p class="subtitle">L'Histoire d'une Idée</p>
+                </header>
+
+                <div class="article-content">
+                    <p>Bienvenue à vous utilisateurs du Beerdex dans ce Beerpedia. Ce Beerpedia regroupera toutes sortes
+                        d'infos sur notre équipe et l'origine de l'application (principalement dans cette intro) mais
+                        sera surtout utile pour vous renseigner sur les différentes bières, comment les déguster etc.
+                    </p>
+
+                    <p>Mais avant tout merci à vous de permettre à cette idée née entre deux frères et un cousin dans un
+                        bar d'exister ! Car oui pour ceux qui se demandent d'où sort cette app voici sa petite histoire
+                        (bien sûr c'est impossible que ça soit le cas, mais si quelqu'un en a rien faire il peut <a
+                            href="../index.html" style="color:var(--accent-gold);">cliquer ici pour skip</a>).</p>
+
+                    <h3>🏙️ Bruxelles, Source d'Inspiration</h3>
+                    <p>Le Beerdex est originaire de la capitale des bières d'exception, Bruxelles, qui en son centre
+                        abrite un bar à L'ambiance bien Brusseleer, <strong>Le Poechenellekelder</strong> (ou le Poech
+                        pour les intimes).</p>
+
+                    <p>Cet estaminet se trouve d'ailleurs être le repaire habituel de notre chère famille mais surtout
+                        l'origine de nombreux souvenirs entre ces frères et leur cousin, <strong>Tristan et Dorian
+                            Storms</strong> et <strong>Maxance Veulemans</strong>.</p>
+
+                    <h3>💡 L'Étincelle</h3>
+                    <p>Qui un soir comme à leur habitude après avoir passé la soirée ensemble décident d'y aller, un
+                        retour dans cet établissement après un long moment sans s'être vu.... une période pendant
+                        laquelle chacun découvre des bières, c'est là qu'on touche au début de ce projet.</p>
+
+                    <p>Maxance se rappelle d'une superbe bière qu'il a goûtée et souhaite nous en faire part,
+                        malheureusement un partage qui ne se fera jamais car il n'a pas pris de notes <em>(on veut
+                            toujours savoir de quelle bière il s'agit Max)</em>.</p>
+
+                    <p>Sur cet oubli s'en suit une discussion sur l'idée, d'entre nous trois prendre des notes sur
+                        chaque bière que l'on déguste pour pouvoir le partager, l'idée première est de chacun avoir un
+                        carnet sur soi mais pas assez pratique à transporter.</p>
+
+                    <h3>📱 La Naissance du Code</h3>
+                    <p>Le téléphone s'impose alors comme une évidence tout le monde transporte le sien, mais les notes
+                        classiques sont trop ennuyantes, trop lambda. Mais si l'idée est de découvrir un maximum de
+                        bières alors le principe du "PokéDex" s'impose mais pour ça il nous faut une app.</p>
+
+                    <p>Et c'est là que Noah vient comme une évidence, l'un des meilleurs amis du groupe avec la
+                        particularité d'être un programmeur on ne peut plus farfelu l'idée lui parle et il se met au
+                        travail dans la minute (la minute après avoir démonté et remonté son pc de A à Z sinon ça ne
+                        serait pas marrant).</p>
+
+                    <blockquote>"Je veux l'appli dès demain" ironise Maxance sans que personne ne se doute qu'en effet
+                        la V1 de l'appli serait prête en 24h.</blockquote>
+
+                    <p>Voilà l'histoire de notre appli je vous épargne toutes les discussions et le travail en interne
+                        pour l'améliorer de jour en jour par la suite.</p>
+
+                    <p>Merci d'avoir lu et profitez du savoir qui suit dans ce Beerpedia, surtout n'oubliez pas :</p>
+
+                    <div class="alert-box"
+                        style="border-left: 4px solid var(--accent-red); background: rgba(255,100,100,0.1); padding: 15px; margin: 20px 0; border-radius: 4px;">
+                        <strong>Dégustez avec sagesse</strong><br>
+                        L'abus d'alcool est dangereux pour la santé. Cette application est un outil pour déguster et
+                        savourer la bière correctement mais nous ne vous incitons aucunement à boire et certainement pas
+                        à outrance.
+                    </div>
+
+                    <p>À tout de suite dans les prochains chapitres.</p>
+
+                    <div class="article-signature">
+                        <p>Les origines de Beerdex</p>
+                        <div class="sign-block">
+                            <span class="sign-name">Storms Dorian</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="height: 100px;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/runtime.js"></script>
+</body>
+
+</html>

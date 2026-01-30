@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beerpedia - Beerdex</title>
+    <meta name="description" content="Encyclopédie de la bière : Styles, Histoire, Conseils.">
+
+    <!-- Fonts & Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../icons/logo-bnr.png">
+</head>
+
+<body>
+
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
+                    <img src="../icons/logo-bnr.png" width="32" height="32" alt="Beerdex Logo">
+                    <h1>Beerpedia</h1>
+                </a>
+            </div>
+            <!-- No filters, no search -->
+            <a href="../index.html" class="icon-btn" aria-label="Retour au Beerdex"
+                style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </a>
+        </header>
+
+        <main id="main-content" class="scroll-container">
+            <!-- Content Injected Here -->
+        </main>
+
+        <!-- Simplified Bottom Nav -->
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

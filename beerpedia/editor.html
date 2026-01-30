@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beerdex - Éditeur d'Articles</title>
+    <!-- Same styles as main app for consistency in preview -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-editor.css">
+</head>
+
+<body class="editor-mode">
+
+
+
+    <!-- SIDEBAR -->
+    <aside class="editor-sidebar">
+        <!-- Fixed Header Section -->
+        <div class="sidebar-header">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="color:var(--accent-gold); margin:0;">Super Éditeur</h2>
+                <!-- Draft Manager Button -->
+                <button id="btn-drafts" class="btn-icon" title="Mes Brouillons"
+                    onclick="toggleDraftsPanel()">📂</button>
+            </div>
+
+            <!-- Metadata -->
+            <div class="input-group" style="margin-top:20px;">
+                <label>Titre de l'Article</label>
+                <input type="text" id="meta-title" placeholder="Ex: Lager & Pilsner">
+            </div>
+            <div class="input-group">
+                <label>Sous-titre</label>
+                <input type="text" id="meta-subtitle" placeholder="Ex: La fraîcheur...">
+            </div>
+            <div class="input-group" style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label>Auteur</label>
+                    <input type="text" id="meta-author" placeholder="Nom">
+                </div>
+                <div style="flex:1;">
+                    <label>Fonction</label>
+                    <input type="text" id="meta-role" placeholder="Beerologue">
+                </div>
+            </div>
+
+            <!-- Primary Action Moved Here -->
+            <button class="btn-primary" style="background:var(--success); margin-top:15px;" onclick="generateHTML()">✨
+                Exporter HTML</button>
+
+            <div class="editor-section-title" style="margin-top:20px;">Ajouter un Bloc</div>
+            <div class="input-group">
+                <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                    <button class="btn-xs" onclick="addBlock('header')">H3</button>
+                    <button class="btn-xs" onclick="addBlock('text')">TXT</button>
+                    <button class="btn-xs" onclick="addBlock('list')">List</button>
+                    <button class="btn-xs" onclick="addBlock('image')">IMG</button>
+                    <button class="btn-xs" onclick="addBlock('meta')">Info</button>
+                    <button class="btn-xs" onclick="addBlock('signature')">🏷️ Specs</button>
+                    <button class="btn-xs" style="color:var(--accent-gold); border-color:var(--accent-gold);"
+                        onclick="addBlock('callout')">Note</button>
+                    <button class="btn-xs" onclick="addBlock('divider')">Div</button>
+                </div>
+                <button class="btn-secondary btn-sm" style="margin-top:5px;"
+                    onclick="document.getElementById('import-modal').classList.remove('hidden')">📥 Importer
+                    HTML</button>
+            </div>
+            <div class="editor-section-title" style="margin-top:10px;">Espace de Travail</div>
+        </div>
+
+        <!-- Scrollable Workspace -->
+        <div id="workspace" class="block-list scroll-container">
+            <!-- Dynamic Blocks -->
+        </div>
+    </aside>
+
+    <!-- PREVIEW -->
+    <main class="editor-preview">
+        <div class="preview-phone-frame">
+            <!-- Rendered content -->
+            <div id="preview-content" style="height:100%; overflow-y:auto;"></div>
+        </div>
+    </main>
+
+    <!-- Import Modal -->
+    <div id="import-modal" class="editor-modal-overlay hidden">
+        <div class="editor-modal-content">
+            <h3 style="color:var(--accent-gold); margin:0;">Importer du Code HTML</h3>
+            <p style="color:#ccc; font-size:0.9rem;">Collez le code source d'un article existant ici :</p>
+            <textarea id="import-code" class="code-editor-area"></textarea>
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button onclick="document.getElementById('import-modal').classList.add('hidden')"
+                    class="btn-secondary">Annuler</button>
+                <button onclick="processImport()" class="btn-primary" style="width:auto;">Importer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drafts Panel -->
+    <div id="drafts-panel" class="drafts-panel hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="margin:0; font-size:1rem; color:var(--accent-gold);">Mes Brouillons</h3>
+            <button class="btn-icon" onclick="toggleDraftsPanel()">✖</button>
+        </div>
+        <button class="btn-primary" onclick="createNewDraft()">+ Nouveau Brouillon</button>
+        <div id="drafts-list" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+            <!-- Draft items -->
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="editor-modal-overlay hidden">
+        <div class="editor-modal-content" style="height:80vh;">
+            <h3 style="color:var(--accent-gold); margin:0;">Code HTML Généré</h3>
+            <p style="color:#ccc; font-size:0.9rem;">Copiez ce code dans un fichier <code>.html</code> :</p>
+            <textarea id="export-code" class="code-editor-area" style="flex:1; height:auto;"></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+                <button class="btn-primary" style="width:auto;"
+                    onclick="document.getElementById('export-modal').classList.add('hidden')">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/editor/app.js"></script>
+</body>
+
+</html>

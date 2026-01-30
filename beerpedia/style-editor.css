@@ -1,0 +1,380 @@
+/* ========================================= */
+/*               CORE VARIABLES              */
+/* ========================================= */
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --accent-gold: #ffc107;
+    --text-main: #e0e0e0;
+    --text-muted: #aaaaaa;
+    --danger: #ff4d4d;
+    --success: #00c853;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    /* Prevent body scroll, handled by containers */
+}
+
+/* ========================================= */
+/*              EDITOR LAYOUT                */
+/* ========================================= */
+
+/* Grid Layout for Desktop */
+body.editor-mode {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* SIDEBAR (Left Panel) */
+.editor-sidebar {
+    background: #181818;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Explicit height */
+    overflow: hidden;
+    /* Contain children */
+    z-index: 10;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: #181818;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+    /* Never shrink */
+    max-height: 50vh;
+    /* Safety limit */
+    overflow-y: auto;
+    /* Allow header scroll if screen is tiny */
+}
+
+/* Workspace (The scrollable part) */
+/* Workspace (The scrollable part) */
+.block-list {
+    flex: 1 1 0;
+    /* Grow, Shrink, Basis 0 */
+    overflow-y: auto;
+    min-height: 0;
+    /* Critical for nested flex scrolling */
+    padding: 20px;
+    padding-bottom: 80px;
+    /* Space for bottom interaction */
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbar Styling */
+.block-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.block-list::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+/* PREVIEW (Right Panel) */
+.editor-preview {
+    background: #050505;
+    overflow: hidden;
+    /* Main container doesn't scroll */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.preview-phone-frame {
+    width: 390px;
+    height: 844px;
+    background: var(--bg-dark);
+    border: 12px solid #1a1a1a;
+    border-radius: 50px;
+    overflow-y: auto;
+    /* Internal scroll */
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.preview-phone-frame::-webkit-scrollbar {
+    width: 0;
+}
+
+/* Hide scrollbar in phone for realism */
+
+/* --- NEW: Modals & Panels Styles --- */
+
+.editor-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.editor-modal-content {
+    background: #1e1e1e;
+    padding: 25px;
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+    max-height: 85vh;
+    border-radius: 16px;
+    border: 1px solid #333;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.drafts-panel {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    width: 320px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: slideInLeft 0.2s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.draft-item {
+    padding: 12px;
+    background: #252525;
+    border-radius: 8px;
+    border: 1px solid #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.draft-item:hover {
+    background: #333;
+    border-color: #555;
+}
+
+.draft-item.active {
+    border-color: var(--accent-gold);
+    background: rgba(255, 193, 7, 0.05);
+}
+
+.code-editor-area {
+    width: 100%;
+    height: 300px;
+    background: #121212;
+    color: #a5d6a7;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+
+
+/* ========================================= */
+/*               UI COMPONENTS               */
+/* ========================================= */
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--accent-gold);
+    color: #000;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.btn-secondary {
+    background: #333;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #444;
+}
+
+.btn-xs {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    background: #333;
+    color: #eee;
+    border: 1px solid #444;
+    cursor: pointer;
+    flex: 1 1 30%;
+    /* 3 per row approx */
+}
+
+.btn-xs:hover {
+    background: #444;
+    border-color: #666;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.btn-icon:hover {
+    color: #fff;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+    background: #222;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Blocks */
+.workspace-block {
+    background: #222;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
+    /* Prevent blocks from getting squished */
+}
+
+.workspace-block:hover {
+    border-color: #555;
+}
+
+.workspace-block.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.editor-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Modals */
+.hidden {
+    display: none !important;
+}
+
+/* ========================================= */
+/*             MOBILE RESPONSIVE             */
+/* ========================================= */
+
+@media (max-width: 900px) {
+    body.editor-mode {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        overflow: auto;
+        /* Allow full body scroll on mobile if needed */
+    }
+
+    .editor-sidebar {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #333;
+        flex: 0 0 auto;
+    }
+
+    .sidebar-header {
+        max-height: none;
+    }
+
+    .block-list {
+        max-height: 40vh;
+        /* Limit height on mobile */
+    }
+
+    .editor-preview {
+        padding: 10px;
+        background: #000;
+        height: auto;
+        display: block;
+        /* Normal block flow */
+        overflow: visible;
+    }
+
+    .preview-phone-frame {
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        height: auto;
+        overflow: visible;
+    }
+}
