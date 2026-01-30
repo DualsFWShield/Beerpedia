@@ -21,14 +21,17 @@ function renderGuide(container) {
     container.innerHTML = GUIDE_HTML;
     window.scrollTo(0, 0);
 
-    // Render Articles (Initial Load - All)
-    renderArticles();
+    // Wait for DOM to be ready before rendering articles
+    requestAnimationFrame(() => {
+        // Render Articles (Initial Load - All)
+        renderArticles();
 
-    // Initialize Interactive Elements
-    setupSearch();
-    setupRandom();
-    setupQuiz();
-    setupStyleMap();
+        // Initialize Interactive Elements
+        setupSearch();
+        setupRandom();
+        setupQuiz();
+        setupStyleMap();
+    });
 }
 
 function renderArticles(filter = '') {
@@ -37,22 +40,15 @@ function renderArticles(filter = '') {
 
     grid.innerHTML = '';
 
-    // Normalize filter
     const term = filter.toLowerCase().trim();
 
-    // Filter Logic
     const filtered = ARTICLES.filter(art => {
-        // Exclude Intro from grid unless searching specifically? 
-        // Let's keep Intro hidden from grid normally, only show styles.
-        // Actually, users might want to search for "Histoire" (Intro). 
-        // Let's include everything if it matches.
-
-        // Strict: Don't show Intro in the "Beer Styles" grid by default if no search.
+        // Don't show Intro in the grid by default
         if (!term && art.id === 'intro') return false;
 
-        const matchTitle = art.title.toLowerCase().includes(term);
-        const matchTags = art.tags.some(t => t.toLowerCase().includes(term));
-        const matchSummary = art.summary.toLowerCase().includes(term);
+        const matchTitle = art.title ? art.title.toLowerCase().includes(term) : false;
+        const matchTags = art.tags ? art.tags.some(t => t.toLowerCase().includes(term)) : false;
+        const matchSummary = art.summary ? art.summary.toLowerCase().includes(term) : false;
 
         return matchTitle || matchTags || matchSummary;
     });
@@ -67,7 +63,7 @@ function renderArticles(filter = '') {
 
     filtered.forEach(art => {
         const card = document.createElement('div');
-        card.className = 'type-card fade-in'; // Reuse class + animation
+        card.className = 'type-card';
 
         const tagsHtml = art.tags.map(t => `<span class="tag">${t}</span>`).join('');
 
@@ -75,7 +71,7 @@ function renderArticles(filter = '') {
             <h3>${art.icon} ${art.title}</h3>
             <div class="tags">${tagsHtml}</div>
             <p>${art.summary}</p>
-            <a href="${art.file}" class="btn-small-outline" style="text-decoration:none; display:inline-block; text-align:center; margin-top:10px;">En savoir plus</a>
+            <a href="${art.file}" class="btn-small-outline">En savoir plus</a>
             ${art.pairing ? `<p class="food-pairing">🍽️ Idéal avec : ${art.pairing}</p>` : ''}
         `;
 

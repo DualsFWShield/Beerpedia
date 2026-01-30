@@ -42,13 +42,12 @@ a {
     text-decoration: none;
 }
 
-/* Layout Shell */
+/* Layout Shell - Mobile First, Full Width */
 #app {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 600px;
-    margin: 0 auto;
+    width: 100%;
     background: var(--bg-dark);
     position: relative;
 }
@@ -265,13 +264,6 @@ hr {
     margin: 40px 0;
 }
 
-/* Animations (Used by Runtime) */
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
 /* Image Zoom Overlay */
 #zoom-overlay {
     backdrop-filter: blur(5px);
@@ -290,10 +282,11 @@ hr {
 /* --- GUIDE PAGE STYLES --- */
 .guide-container {
     padding: 20px;
-    max-width: 800px;
+    width: 100%;
+    max-width: 100%;
+    /* Full width */
     margin: 0 auto;
     color: var(--text-primary);
-    animation: fadeIn 0.5s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -357,7 +350,7 @@ hr {
 
 .type-card {
     background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 20px;
     transition: transform 0.2s, border-color 0.2s;
@@ -651,32 +644,29 @@ hr {
     transform: scale(0.98);
 }
 
-/* PC / Tablet Expansion */
-@media (min-width: 850px) {
-    #app {
-        max-width: 1200px;
-        /* Widen container for PC */
-        margin: 20px auto;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-    }
-
-    .app-header {
-        border-radius: 20px 20px 0 0;
-    }
-
-    .guide-container {
-        max-width: 1000px;
-        /* Allow guide to breathe */
-    }
-
-    .beer-type-grid {
-        gap: 30px;
-        /* More space between cards */
-    }
-
+/* PC / Tablet - Optional Constrained Layout */
+@media (min-width: 1200px) {
     .type-card {
         padding: 30px;
     }
+}
+
+/* Small Outline Button */
+.btn-small-outline {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    background: transparent;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-small-outline:hover {
+    background: var(--accent-gold);
+    color: #000;
 }

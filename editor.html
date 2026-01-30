@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beerdex - Éditeur d'Articles</title>
+    <title>Beerpedia - Éditeur d'Articles</title>
     <!-- Same styles as main app for consistency in preview -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Russo+One&display=swap"
         rel="stylesheet">
@@ -30,7 +30,23 @@
             <!-- Metadata -->
             <div class="input-group" style="margin-top:20px;">
                 <label>Titre de l'Article</label>
-                <input type="text" id="meta-title" placeholder="Ex: Lager & Pilsner">
+                <div style="display:flex; gap:8px;">
+                    <select id="meta-icon" style="width:60px; text-align:center; font-size:1.2rem;">
+                        <option value="🍺">🍺</option>
+                        <option value="🍻">🍻</option>
+                        <option value="🌿">🌿</option>
+                        <option value="☕">☕</option>
+                        <option value="⛪">⛪</option>
+                        <option value="🌾">🌾</option>
+                        <option value="🍋">🍋</option>
+                        <option value="📖">📖</option>
+                        <option value="📜">📜</option>
+                        <option value="🎓">🎓</option>
+                        <option value="💡">💡</option>
+                        <option value="🏆">🏆</option>
+                    </select>
+                    <input type="text" id="meta-title" placeholder="Ex: Lager & Pilsner" style="flex:1;">
+                </div>
             </div>
             <div class="input-group">
                 <label>Sous-titre</label>
@@ -39,17 +55,20 @@
             <div class="input-group" style="display:flex; gap:10px;">
                 <div style="flex:1;">
                     <label>Auteur</label>
-                    <input type="text" id="meta-author" placeholder="Nom">
+                    <input type="text" id="meta-author" placeholder="Nom" value="Beerpedia">
                 </div>
                 <div style="flex:1;">
                     <label>Fonction</label>
-                    <input type="text" id="meta-role" placeholder="Beerologue">
+                    <input type="text" id="meta-role" placeholder="Beerologue" value="Éditeur">
                 </div>
             </div>
 
-            <!-- Primary Action Moved Here -->
-            <button class="btn-primary" style="background:var(--success); margin-top:15px;" onclick="generateHTML()">✨
-                Exporter HTML</button>
+            <!-- Primary Actions -->
+            <div style="display:flex; gap:8px; margin-top:15px;">
+                <button class="btn-primary" style="background:var(--success); flex:1;" onclick="generateHTML()">✨
+                    Exporter</button>
+                <button class="btn-primary" style="flex:1;" onclick="downloadHTML()">📥 Télécharger</button>
+            </div>
 
             <div class="editor-section-title" style="margin-top:20px;">Ajouter un Bloc</div>
             <div class="input-group">
@@ -62,6 +81,9 @@
                     <button class="btn-xs" onclick="addBlock('signature')">🏷️ Specs</button>
                     <button class="btn-xs" style="color:var(--accent-gold); border-color:var(--accent-gold);"
                         onclick="addBlock('callout')">Note</button>
+                    <button class="btn-xs" onclick="addBlock('quote')">❝ Citation</button>
+                    <button class="btn-xs" onclick="addBlock('faq')">❓ FAQ</button>
+                    <button class="btn-xs" onclick="addBlock('table')">📊 Table</button>
                     <button class="btn-xs" onclick="addBlock('divider')">Div</button>
                 </div>
                 <button class="btn-secondary btn-sm" style="margin-top:5px;"
@@ -69,6 +91,8 @@
                     HTML</button>
             </div>
             <div class="editor-section-title" style="margin-top:10px;">Espace de Travail</div>
+            <p style="font-size:0.7rem; color:#666; margin-bottom:10px;">💡 Ctrl+S: Sauver | Ctrl+E: Exporter |
+                Ctrl+B/I/U: Formatage</p>
         </div>
 
         <!-- Scrollable Workspace -->
@@ -124,7 +148,7 @@
         </div>
     </div>
 
-    <script src="js/editor/app.js"></script>
+    <script src="js/editor.js"></script>
 </body>
 
 </html>

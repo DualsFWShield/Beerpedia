@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Beerpedia-v1';
+const CACHE_NAME = 'Beerpedia-v4';
 const ASSETS = [
     './',
     './index.html',
