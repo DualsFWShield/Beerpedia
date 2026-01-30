@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beerpedia - Article</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase -->
+    <script type="module">
+        import { db, doc, getDoc, auth, signInAnonymously } from './js/firebase-config.js';
+
+        async function loadArticle() {
+            // Ensure Auth
+            try {
+                if (!auth.currentUser) await signInAnonymously(auth);
+            } catch (e) { console.warn("Anon auth failed", e); }
+
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const contentDiv = document.getElementById('article-container');
+
+            if (!id) {
+                contentDiv.innerHTML = '<p style="text-align:center; padding:50px;">Article non spécifié.</p>';
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "articles", id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Injecting the raw HTML stored in Firestore or rendering it manually
+                    // Since we stored full HTML string in 'contentHtml', we only need the BODY content basically.
+                    // But wait, our 'contentHtml' in editor.js generates a FULL HTML PAGE.
+                    // That's tricky. We just want the 'article-content' part essentially.
+
+                    // Simple hack: We can just use the 'contentHtml' and parse it to extract the body content, 
+                    // OR better, we update editor.js to store 'bodyContent' separately.
+                    // FOR NOW: Let's assume we just want to replace the page content or extract it.
+
+                    // Let's parser it
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.contentHtml, 'text/html');
+
+                    // Update Title
+                    document.title = data.title + " - Beerpedia";
+
+                    // Extract Content
+                    const mainContent = doc.querySelector('#main-content').innerHTML;
+                    const mainContainer = document.getElementById('main-content');
+                    mainContainer.innerHTML = mainContent;
+                } else {
+                    contentDiv.innerHTML = '<p style="text-align:center; padding:50px;">Article introuvable.</p>';
+                }
+            } catch (e) {
+                console.error("Error loading article:", e);
+                contentDiv.innerHTML = `<p style="text-align:center; padding:50px; color:red;">Erreur de chargement: ${e.message}</p>`;
+            }
+        }
+
+        window.onload = loadArticle;
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
+                    <img src="icons/logo-bnr.png" width="32" height="32" alt="Beerpedia Logo">
+                    <h1>Beerpedia</h1>
+                </a>
+            </div>
+            <a href="index.html" class="icon-btn" aria-label="Retour">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+        </header>
+
+        <main id="main-content" class="scroll-container">
+            <div id="article-container" style="display:flex; justify-content:center; align-items:center; height:50vh;">
+                <div class="loader">Loading...</div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

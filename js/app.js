@@ -1,7 +1,9 @@
 import { GUIDE_HTML } from './guide_content.js';
-import { ARTICLES } from './data.js';
+import { ARTICLES as LOCAL_ARTICLES } from './data.js';
+import { db, collection, getDocs, auth, signInAnonymously, onAuthStateChanged } from './firebase-config.js';
 
 const mainContent = document.getElementById('main-content');
+let ALL_ARTICLES = [...LOCAL_ARTICLES]; // Start with local
 
 // Init
 function init() {
@@ -22,7 +24,43 @@ function renderGuide(container) {
     window.scrollTo(0, 0);
 
     // Wait for DOM to be ready before rendering articles
-    requestAnimationFrame(() => {
+    requestAnimationFrame(async () => {
+        // Ensure Anonymous Auth for Reading
+        try {
+            await new Promise((resolve) => {
+                if (auth.currentUser) resolve();
+                else {
+                    signInAnonymously(auth).then(resolve).catch(e => {
+                        console.warn("Auth Anonyme échouée", e);
+                        resolve(); // Continue anyway, maybe rules are public
+                    });
+                }
+            });
+        } catch (e) { console.log("Auth setup check failed", e); }
+
+        // Fetch Online Articles
+        try {
+            const querySnapshot = await getDocs(collection(db, "articles"));
+            const onlineArticles = [];
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                onlineArticles.push({
+                    id: doc.id,
+                    title: data.title,
+                    file: `article.html?id=${doc.id}`, // Dynamic Link
+                    icon: data.icon,
+                    tags: data.tags || [],
+                    summary: data.subtitle || 'Article publié par la communauté.',
+                    pairing: '' // Optional
+                });
+            });
+
+            // Merge: Online first or last? Let's put them first.
+            ALL_ARTICLES = [...onlineArticles, ...LOCAL_ARTICLES];
+        } catch (e) {
+            console.log("Could not fetch online articles (offline or config missing):", e);
+        }
+
         // Render Articles (Initial Load - All)
         renderArticles();
 
@@ -42,7 +80,7 @@ function renderArticles(filter = '') {
 
     const term = filter.toLowerCase().trim();
 
-    const filtered = ARTICLES.filter(art => {
+    const filtered = ALL_ARTICLES.filter(art => {
         // Don't show Intro in the grid by default
         if (!term && art.id === 'intro') return false;
 
@@ -95,9 +133,8 @@ function setupRandom() {
     if (!btn) return;
 
     btn.addEventListener('click', () => {
-        // Pick random article (exclude Intro maybe?)
-        // Let's allow Intro too, why not.
-        const rand = ARTICLES[Math.floor(Math.random() * ARTICLES.length)];
+        // Pick random article
+        const rand = ALL_ARTICLES[Math.floor(Math.random() * ALL_ARTICLES.length)];
         window.location.href = rand.file;
     });
 }

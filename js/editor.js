@@ -2,6 +2,8 @@
 // BEERPEDIA ARTICLE EDITOR - v2.0
 // ======================================
 
+import { db, auth, collection, addDoc, getDocs, getDoc, doc, signInWithEmailAndPassword, onAuthStateChanged, signOut, provider, signInWithPopup } from './firebase-config.js';
+
 // State
 let blocks = [];
 let dragSrcEl = null;
@@ -20,6 +22,138 @@ const BLOCK_TYPES = {
     table: { label: 'Tableau', icon: '📊', field: 'textarea', placeholder: 'Col1,Col2,Col3\nVal1,Val2,Val3' },
     divider: { label: 'Séparateur', icon: '➖', isStatic: true }
 };
+
+// --- Firebase Auth & Logic ---
+
+function initFirebaseUI() {
+    const btnLogin = document.getElementById('btn-login');
+    const loginForm = document.getElementById('login-form');
+    const authEmail = document.getElementById('auth-email');
+    const authPass = document.getElementById('auth-password');
+    const btnSubmit = document.getElementById('btn-auth-submit');
+    const btnLogout = document.getElementById('btn-logout');
+    const btnPublish = document.getElementById('btn-publish');
+
+    // Toggle Login Form
+    if (btnLogin) {
+        btnLogin.addEventListener('click', () => {
+            loginForm.classList.toggle('hidden');
+            btnLogin.classList.toggle('hidden');
+        });
+    }
+
+    // Google Login Logic
+    if (loginForm && !document.getElementById('btn-google-login')) {
+        const googleBtn = document.createElement('button');
+        googleBtn.id = 'btn-google-login';
+        googleBtn.className = 'btn-secondary';
+        googleBtn.innerHTML = '🔵 Se connecter avec Google';
+        googleBtn.style.width = '100%';
+        googleBtn.style.marginTop = '10px';
+        googleBtn.style.marginBottom = '10px';
+
+        // Insert before inputs
+        loginContainer.insertBefore(googleBtn, loginContainer.firstChild);
+
+        googleBtn.addEventListener('click', async () => {
+            try {
+                await signInWithPopup(auth, provider);
+                loginForm.classList.add('hidden');
+            } catch (error) {
+                console.error(error);
+                alert("Erreur Google Auth : " + error.message);
+            }
+        });
+    }
+
+    // Login Action
+    if (btnSubmit) {
+        btnSubmit.addEventListener('click', async () => {
+            try {
+                await signInWithEmailAndPassword(auth, authEmail.value, authPass.value);
+                loginForm.classList.add('hidden');
+            } catch (error) {
+                alert("Erreur de connexion : " + error.message);
+            }
+        });
+    }
+
+    // Logout Action
+    if (btnLogout) {
+        btnLogout.addEventListener('click', () => signOut(auth));
+    }
+
+    // Publish Action
+    if (btnPublish) {
+        btnPublish.addEventListener('click', publishArticle);
+    }
+
+    // Auth State Observer
+    onAuthStateChanged(auth, (user) => {
+        const authSection = document.getElementById('auth-section');
+        const userSection = document.getElementById('user-section');
+        const userEmailSpan = document.getElementById('user-email');
+
+        if (user) {
+            if (authSection) authSection.classList.add('hidden');
+            if (userSection) userSection.classList.remove('hidden');
+            if (userEmailSpan) userEmailSpan.innerText = user.email;
+        } else {
+            if (authSection) authSection.classList.remove('hidden');
+            if (userSection) userSection.classList.add('hidden');
+            if (btnLogin) btnLogin.classList.remove('hidden'); // Ensure button is back
+            if (loginForm) loginForm.classList.add('hidden');
+        }
+    });
+}
+
+async function publishArticle() {
+    if (!confirm("Voulez-vous publier cet article en ligne sur Firebase ?")) return;
+
+    const btn = document.getElementById('btn-publish');
+    const originalText = btn.innerText;
+    btn.innerText = "⏳ Publication...";
+    btn.disabled = true;
+
+    try {
+        const title = document.getElementById('meta-title').value || 'Sans titre';
+        const subtitle = document.getElementById('meta-subtitle').value || '';
+        const icon = document.getElementById('meta-icon').value || '🍺';
+        const author = document.getElementById('meta-author').value || 'Beerpedia';
+        const role = document.getElementById('meta-role').value || 'Éditeur';
+        const generatedHtml = getExportHTML(); // We store the full HTML for easy rendering
+
+        // Search Keywords Generation
+        const keywords = [
+            ...title.toLowerCase().split(' '),
+            ...subtitle.toLowerCase().split(' '),
+            ...blocks.map(b => typeof b.content === 'string' ? b.content.toLowerCase().split(' ') : []).flat()
+        ].filter(k => k.length > 3);
+
+        const articleData = {
+            title,
+            subtitle,
+            icon,
+            author,
+            role,
+            blocks, // Store raw blocks for editing later if needed
+            contentHtml: generatedHtml, // Store generated HTML for display
+            tags: [...new Set(keywords)].slice(0, 10), // Limit keywords
+            createdAt: new Date().toISOString(),
+            uid: auth.currentUser ? auth.currentUser.uid : 'anon'
+        };
+
+        const docRef = await addDoc(collection(db, "articles"), articleData);
+
+        alert(`🎉 Article publié avec succès ! ID: ${docRef.id}`);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        alert("Erreur lors de la publication : " + e.message);
+    } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
+}
 
 // --- Workspace Management ---
 
@@ -750,6 +884,7 @@ document.addEventListener('keydown', (e) => {
 
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Auto-save indicator
     const header = document.querySelector('.sidebar-header');
     if (header) {
         const ind = document.createElement('div');
@@ -759,4 +894,5 @@ document.addEventListener('DOMContentLoaded', () => {
         header.appendChild(ind);
     }
     loadDrafts();
+    initFirebaseUI(); // Initialize Firebase Logic
 });
